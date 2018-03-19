@@ -20,7 +20,7 @@ public class BarsHelper {
 
     @IntDef({STATUS_BAR_HEIGHT, NAVIGATION_BAR_HEIGHT})
     @Retention(RetentionPolicy.CLASS)
-    public @interface barType {
+    public @interface BarType {
     }
 
     /**
@@ -29,7 +29,7 @@ public class BarsHelper {
      * @param statusOrNavigationMark 状态栏或者导航栏的标记
      * @return 当前状态栏或者导航栏的高度，如果为0，说明获取失败
      */
-    public static int getStatusBarOrNavigationHeight(@barType int statusOrNavigationMark) {
+    public static int getStatusBarOrNavigationHeight(@BarType int statusOrNavigationMark) {
         int resultId;
         Resources resources = AAUHelper.getApplication().getResources();
 
