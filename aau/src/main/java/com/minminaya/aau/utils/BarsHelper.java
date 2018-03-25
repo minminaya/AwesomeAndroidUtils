@@ -1,7 +1,14 @@
 package com.minminaya.aau.utils;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.res.Resources;
+import android.support.annotation.ColorInt;
+import android.support.annotation.FloatRange;
 import android.support.annotation.IntDef;
+import android.support.annotation.IntRange;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.minminaya.aau.AAUHelper;
 
@@ -42,4 +49,19 @@ public class BarsHelper {
         //如果不等于0，说明找到了指定的属性值，那么返回当前的高度
         return resultId > 0 ? resources.getDimensionPixelSize(resultId) : 0;
     }
+
+    @TargetApi(19)
+    public static void addStatusBarView(Activity activity, @ColorInt int color, @FloatRange(from = 0.0f, to = 1.0f) float statusBarAlpha) {
+        ViewGroup contentView = activity.findViewById(android.R.id.content);
+        View statusView = new View(activity);
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getStatusBarOrNavigationHeight(STATUS_BAR_HEIGHT));
+
+        statusView.setBackgroundColor(color);
+        statusView.setAlpha(statusBarAlpha);
+
+        contentView.addView(statusView, layoutParams);
+    }
+
+
+
 }

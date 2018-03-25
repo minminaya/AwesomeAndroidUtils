@@ -1,5 +1,6 @@
 package com.minminaya.aaudemo.activity;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,5 +21,8 @@ public class HomeActivity extends AppCompatActivity {
 
 
         Log.e("HomeActivity：", "当前navigationHeight值：" + navigationHeight);
+
+
+        BarsHelper.addStatusBarView(this, Color.GREEN, 0.5f);
     }
 }
