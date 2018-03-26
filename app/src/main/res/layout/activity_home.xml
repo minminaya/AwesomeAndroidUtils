@@ -7,11 +7,12 @@
     android:layout_height="match_parent"
     tools:context="com.minminaya.aaudemo.activity.HomeActivity">
 
-    <!--<android.support.v7.widget.Toolbar
+    <android.support.v7.widget.Toolbar
         app:title="Toolbar"
-        android:background="@color/colorPrimaryDark"
+        android:background="@drawable/gradient_1"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize" />-->
+
+        android:layout_height="?attr/actionBarSize" />
 
     <ImageView
         android:layout_width="match_parent"

@@ -1,11 +1,15 @@
 package com.minminaya.aau.utils;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
+import android.support.annotation.FontRes;
+import android.support.annotation.IdRes;
 import android.support.annotation.IntDef;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,18 +35,21 @@ public class BarsHelper {
      */
     public final static int NO_STATUS_AND_NO_NAVIGATION = -1;
 
-
     /**
+     * <p>添加沉浸式状态栏，表现为普通同一颜色式（最常用）和渐变式状态栏（和Toolbar搭配使用【设置渐变背景】起到渐变式的额头效果）</p>
+     * <p>
      * <p>沉浸式状态栏一：</p>
      * <p>1.把屏幕全屏化，剩下状态栏</p>
      * <p>2.新建一个指定颜色和透明度的状态栏大小的View在放置在DecorView中，将contentView向下偏移状态栏高度</p>
      *
-     * @param activity       所在Activity
-     * @param color          十六进制颜色值
-     * @param statusBarAlpha 透明度，设置为不透明，与contentView可融为一体
+     * @param activity            所在Activity
+     * @param isNormalStatusBar   true代表当前是普通的状态栏，false代表当前是渐变式状态栏
+     * @param gradientDrawableRes 渐变式状态栏的渐变文件，当isNormalStatusBar为false时起作用，不使用时可调-1
+     * @param normalStatusColor   十六进制颜色值，当isNormalStatusBar为true时起作用不使用该值时可调-1
+     * @param statusBarAlpha      透明度，设置为不透明，与contentView可融为一体
      */
     @TargetApi(21)
-    public static void addStatusBarViewAtDecorView(Activity activity, @ColorInt int color, @FloatRange(from = 0.0f, to = 1.0f) float statusBarAlpha) {
+    public static void addGradientOrNormalStatusBarViewAtDecorView(Activity activity, boolean isNormalStatusBar, @IdRes int gradientDrawableRes, @ColorInt int normalStatusColor, @FloatRange(from = 0.0f, to = 1.0f) float statusBarAlpha) {
         Window window = activity.getWindow();
         //两个flag结合使用，表现为应用的主体内容占用系统状态栏的空间
         window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
@@ -54,7 +61,13 @@ public class BarsHelper {
         //新建一个状态栏大小的View
         View statusView = new View(activity);
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getStatusBarOrNavigationHeight(STATUS_BAR));
-        statusView.setBackgroundColor(color);
+        if (!isNormalStatusBar) {
+            //如果是渐变式状态栏，生成一个Drawable
+            @SuppressLint("ResourceType") Drawable drawable = activity.getResources().getDrawable(gradientDrawableRes, null);
+            statusView.setBackground(drawable);
+        } else {
+            statusView.setBackgroundColor(normalStatusColor);
+        }
         statusView.setAlpha(statusBarAlpha);
         //在DecorView中添加statusView
         decorView.addView(statusView, layoutParams);
@@ -154,6 +167,5 @@ public class BarsHelper {
     @Retention(RetentionPolicy.SOURCE)
     public @interface BarType {
     }
-
 
 }
