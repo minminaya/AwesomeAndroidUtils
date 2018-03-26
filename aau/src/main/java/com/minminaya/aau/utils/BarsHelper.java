@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
 import android.support.annotation.IntDef;
@@ -25,8 +24,12 @@ import java.lang.annotation.RetentionPolicy;
 
 public class BarsHelper {
 
-    public final static int STATUS_BAR_HEIGHT = 0;
-    public final static int NAVIGATION_BAR_HEIGHT = 1;
+    public final static int STATUS_BAR = 0;
+    public final static int NAVIGATION_BAR = 1;
+    /**
+     * 表示不起作用
+     */
+    public final static int NO_STATUS_AND_NO_NAVIGATION = -1;
 
 
     /**
@@ -46,11 +49,11 @@ public class BarsHelper {
         //设置透明背景Bars
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         //将DecorView的ContentView向下偏移状态栏高度
-        activity.getWindow().getDecorView().findViewById(android.R.id.content).setPadding(0, getStatusBarOrNavigationHeight(STATUS_BAR_HEIGHT), 0, 0);
+        activity.getWindow().getDecorView().findViewById(android.R.id.content).setPadding(0, getStatusBarOrNavigationHeight(STATUS_BAR), 0, 0);
         ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
         //新建一个状态栏大小的View
         View statusView = new View(activity);
-        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getStatusBarOrNavigationHeight(STATUS_BAR_HEIGHT));
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getStatusBarOrNavigationHeight(STATUS_BAR));
         statusView.setBackgroundColor(color);
         statusView.setAlpha(statusBarAlpha);
         //在DecorView中添加statusView
@@ -59,19 +62,56 @@ public class BarsHelper {
         activity.getWindow().setStatusBarColor(Color.TRANSPARENT);
     }
 
+    /**
+     * <p>设置状态栏或者导航栏颜色</p>
+     *
+     * @param activity
+     * @param color                  指定颜色值，16进制颜色值
+     * @param alpha                  指定透明度，百分比形式，例如百分之60，为0.6
+     * @param isDoubleSetting        是否同时设置状态栏颜色和导航栏颜色，true代表同时设置
+     * @param statusOrNavigationMark 导航栏和状态栏标记，当isDoubleSetting为false时才起作用
+     */
+    public static void setStatusBarColor(Activity activity, @ColorInt int color, @FloatRange(from = 0f, to = 1.0f) float alpha, boolean isDoubleSetting, @BarType int statusOrNavigationMark) {
+        Window window = activity.getWindow();
+        int endColor = ColorHelper.changeArg(color, alpha);
+        if (isDoubleSetting) {
+            window.setStatusBarColor(endColor);
+            window.setNavigationBarColor(endColor);
+        } else if (statusOrNavigationMark == BarsHelper.NAVIGATION_BAR) {
+            window.setNavigationBarColor(endColor);
+        } else if (statusOrNavigationMark == BarsHelper.STATUS_BAR) {
+            window.setStatusBarColor(endColor);
+        }
+    }
 
     /**
-     * <p>设置沉浸式布局，并且使状态栏颜色为指定</p>
+     * <p>设置沉浸式状态栏，并且使状态栏颜色为指定，指定透明度</p>
+     * <p>表现为布局内容全沉浸，内容顶到状态栏里边</p>
+     *
+     * @param activity
+     * @param color    指定颜色值，16进制颜色值
+     * @param alpha    指定透明度，百分比形式，例如百分之60，为0.6
      */
     @TargetApi(21)
-    public static void setStatusTransparent(Activity activity, @ColorInt int color) {
+    public static void setStatusTransparentAndColor(Activity activity, @ColorInt int color, @FloatRange(from = 0f, to = 1.0f) float alpha) {
         Window window = activity.getWindow();
         //两个flag结合使用，表现为应用的主体内容占用系统状态栏的空间
         window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         //设置透明背景Bars
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ColorHelper.changeArg(color, 0.5f));
+        window.setStatusBarColor(ColorHelper.changeArg(color, alpha));
+    }
 
+    /**
+     * <p>设置沉浸式布局，并且使状态栏颜色为指定，默认为不透明</p>
+     * <p>表现为布局内容全沉浸，内容顶到状态栏里边，完全不透明的StatusBar条View</p>
+     *
+     * @param activity
+     * @param color    指定颜色值，16进制颜色值
+     */
+    @TargetApi(21)
+    public static void setStatusTransparentAndColor(Activity activity, @ColorInt int color) {
+        setStatusTransparentAndColor(activity, color, 1.0f);
     }
 
 
@@ -84,7 +124,7 @@ public class BarsHelper {
     public static int getStatusBarOrNavigationHeight(@BarType int statusOrNavigationMark) {
         int resultId = -1;
         Resources resources = AAUHelper.getApplication().getResources();
-        if (statusOrNavigationMark == STATUS_BAR_HEIGHT) {
+        if (statusOrNavigationMark == STATUS_BAR) {
             //如果是状态栏
             resultId = resources.getIdentifier("status_bar_height", "dimen", "android");
         } else {
@@ -110,7 +150,7 @@ public class BarsHelper {
     /**
      * <p>作为状态栏和导航栏的标记</p>
      */
-    @IntDef({STATUS_BAR_HEIGHT, NAVIGATION_BAR_HEIGHT})
+    @IntDef({STATUS_BAR, NAVIGATION_BAR, NO_STATUS_AND_NO_NAVIGATION})
     @Retention(RetentionPolicy.SOURCE)
     public @interface BarType {
     }
