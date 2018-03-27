@@ -8,9 +8,9 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:background="@color/colorPrimaryDark"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimaryDark"
         app:title="Toolbar" />
 
     <ImageView
@@ -19,4 +19,20 @@
         android:layout_below="@id/toolbar"
         android:scaleType="centerCrop"
         android:src="@drawable/aasdemo_home_iv_def" />
+
+    <Button
+        android:id="@+id/btn_show"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="设置1" />
+
+    <Button
+        android:id="@+id/btn_hide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:text="设置2" />
+
 </RelativeLayout>

@@ -23,6 +23,7 @@ import com.minminaya.aau.AAUHelper;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.lang.reflect.Method;
 
 /**
  * 关于状态栏，导航栏的工具类，不考虑Android4.4及以下版本，由于手头无小米魅族机器，暂时不考虑小米魅族比较特殊的ROM版本
@@ -107,12 +108,10 @@ public class BarsHelper {
     }
 
 
-
-
     /**
      * <p>设置Drawer侧滑布局时ContentView沉浸式并且侧滑NavigationView表现为全屏沉浸式（状态栏在下面）</p>
      * <p>常用于Toolbar结合使用，无Toolbar式请直接使用{@code setStatusTransparentAndColor(Activity activity, @ColorInt int color, @FloatRange(from = 0f, to = 1.0f) float alpha)}透明度设置为全透明即可</p>
-     *
+     * <p>
      * <p>思路如下：</p>
      * <p>1. 先设置为内容沉浸式进入状态栏</p>
      * <p>2. 将原来contentView从其父View移除</p>
@@ -191,6 +190,23 @@ public class BarsHelper {
 
 
     /**
+     * <p>粘性沉浸式模式</p>
+     * <p>状态栏和导航栏会自动隐藏，适用于视频和图像播放界面</p>
+     */
+    public static void setNavigationImmersive(Activity activity) {
+        View mDecorView = activity.getWindow().getDecorView();
+        mDecorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide 导航栏
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide 状态栏
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        );
+    }
+
+
+    /**
      * <p>通过反射获取当前状态栏或者导航栏的高度,单位为px</p>
      *
      * @param statusOrNavigationMark 状态栏或者导航栏的标记
@@ -210,6 +226,26 @@ public class BarsHelper {
     }
 
     /**
+     * 隐藏导航栏
+     */
+    public static void hideNavigationBar(Activity activity) {
+        View decorView = activity.getWindow().getDecorView();
+        int options = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(options);
+    }
+
+    /**
+     * 显示导航栏
+     */
+    public static void showNavigationBar(Activity activity) {
+        View decorView = activity.getWindow().getDecorView();
+        int options = View.SYSTEM_UI_FLAG_VISIBLE;
+        decorView.setSystemUiVisibility(options);
+    }
+
+
+    /**
      * <p>判断当前Activity的可见性</p>
      * <p>策略是，先获取当前Activity的Window的flag，判断flag是否是全屏，如果和 {@link WindowManager.LayoutParams.FLAG_FULLSCREEN}与运算后相等说明当前是状态栏是可见的</p>
      *
@@ -220,6 +256,45 @@ public class BarsHelper {
         //当前Window的LayoutParams的标签flag
         int flag = activity.getWindow().getAttributes().flags;
         return (flag & WindowManager.LayoutParams.FLAG_FULLSCREEN) == 0;
+    }
+
+    /**
+     * <p>判断当前Activity的导航栏可见性</p>
+     *
+     * @param activity 需要判断的当前的Activity
+     * @return {@code true} ：NavigationBar可见<br>{@code false} ：NavigationBar不可见
+     */
+   /* public static boolean isNavigationBarVisible(Activity activity) {
+        //当前Window的LayoutParams的标签flag
+        int flag = activity.getWindow().getAttributes().flags;
+        return (flag & View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION) == 0;
+    }*/
+
+    /**
+     * <p>判断手机是否支持导航栏</p>
+     *
+     * @return true 表示当前设备是否支持导航栏
+     */
+    public static boolean checkDeviceSupportNavigationBar(Context context) {
+        boolean hasNavigationBar = false;
+        Resources rs = context.getResources();
+        int id = rs.getIdentifier("config_showNavigationBar", "bool", "android");
+        if (id > 0) {
+            hasNavigationBar = rs.getBoolean(id);
+        }
+        try {
+            Class systemPropertiesClass = Class.forName("android.os.SystemProperties");
+            Method m = systemPropertiesClass.getMethod("get", String.class);
+            String navBarOverride = (String) m.invoke(systemPropertiesClass, "qemu.hw.mainkeys");
+            if ("1".equals(navBarOverride)) {
+                hasNavigationBar = false;
+            } else if ("0".equals(navBarOverride)) {
+                hasNavigationBar = true;
+            }
+        } catch (Exception e) {
+
+        }
+        return hasNavigationBar;
     }
 
     /**

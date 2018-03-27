@@ -3,4 +3,21 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+
+    <!--颜色来自http://www.sioe.cn/yingyong/yanse-rgb-16/-->
+    <color name="LightPink_FFB6C1">#FFB6C1</color><!--浅粉红-->
+    <color name="Pink_FFC0CB">#FFC0CB</color><!--粉红-->
+    <color name="Crimson_DC143C">#DC143C</color><!--猩红-->
+    <color name="LavenderBlush_FFF0F5">#FFF0F5</color><!--脸红的淡紫色-->
+    <color name="PaleVioletRed_DB7093">#DB7093</color><!--苍白的紫罗兰红色-->
+    <color name="HotPink_FF69B4">#FF69B4</color><!--热情的粉红-->
+    <color name="DeepPink_FF1493">#FF1493</color><!--深粉色-->
+    <color name="MediumVioletRed_C71585">#C71585</color><!--适中的紫罗兰红色-->
+    <color name="Orchid_DA70D6">#DA70D6</color><!--兰花的紫色-->
+    <color name="Thistle_D8BFD8">#D8BFD8</color><!--蓟-->
+    <color name="plum_DDA0DD">#DDA0DD</color><!--李子-->
+    <color name="Violet_EE82EE">#EE82EE</color><!--紫罗兰-->
+
+
 </resources>
