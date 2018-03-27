@@ -3,6 +3,7 @@ package com.minminaya.aau.utils;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -11,10 +12,12 @@ import android.support.annotation.FloatRange;
 import android.support.annotation.FontRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.IntDef;
+import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 
 import com.minminaya.aau.AAUHelper;
 
@@ -22,7 +25,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * 关于状态栏，导航栏的工具类，不考虑Android4.4及以下版本
+ * 关于状态栏，导航栏的工具类，不考虑Android4.4及以下版本，由于手头无小米魅族机器，暂时不考虑小米魅族比较特殊的ROM版本
+ * <p>
+ * <p>
  * Created by Niwa on 2018-03-18.
  */
 
@@ -41,6 +46,10 @@ public class BarsHelper {
      * <p>沉浸式状态栏一：</p>
      * <p>1.把屏幕全屏化，剩下状态栏</p>
      * <p>2.新建一个指定颜色和透明度的状态栏大小的View在放置在DecorView中，将contentView向下偏移状态栏高度</p>
+     * <p>
+     * <p> 布局中不要设置android:fitsSystemWindows="true"</p>
+     * <p>默认主题是android:theme="@style/Theme.AppCompat.Light.NoActionBar"</p>
+     * <p>假如是Navigation侧滑式菜单，NavigationView布局下加上 app:insetForeground="#00000000"消除Navigation上的半透明Bar</p>
      *
      * @param activity            所在Activity
      * @param isNormalStatusBar   true代表当前是普通的状态栏，false代表当前是渐变式状态栏
@@ -97,9 +106,74 @@ public class BarsHelper {
         }
     }
 
+
+
+
+    /**
+     * <p>设置Drawer侧滑布局时ContentView沉浸式并且侧滑NavigationView表现为全屏沉浸式（状态栏在下面）</p>
+     * <p>常用于Toolbar结合使用，无Toolbar式请直接使用{@code setStatusTransparentAndColor(Activity activity, @ColorInt int color, @FloatRange(from = 0f, to = 1.0f) float alpha)}透明度设置为全透明即可</p>
+     *
+     * <p>思路如下：</p>
+     * <p>1. 先设置为内容沉浸式进入状态栏</p>
+     * <p>2. 将原来contentView从其父View移除</p>
+     * <p>3. 将statusView构造后的父容器添加回2的父布局</p>
+     *
+     * @param activity
+     * @param color     状态栏颜色
+     * @param contentId 当前Content 的布局id，这个是必须的
+     */
+    @TargetApi(21)
+    public static void setDrawerLayoutTransparent(Activity activity, @ColorInt int color, @IdRes int contentId) {
+        //这里的颜色意义不大，因为这里是全透明
+        setStatusTransparentAndColor(activity, color, 0.0f);
+        //在内容布局增加状态栏，这样侧滑菜单上就不会有了
+        ViewGroup contentView = (ViewGroup) activity.findViewById(android.R.id.content);
+        //DrawerLayout 则需要在第一个子视图即内容试图中添加padding
+        View parentView = contentView.getChildAt(0);
+
+        //新建的这个线性布局将会作为新的内容布局
+        LinearLayout linearLayout = new LinearLayout(activity);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        View statusBarView = new View(activity);
+        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                BarsHelper.getStatusBarOrNavigationHeight(BarsHelper.STATUS_BAR));
+        //设置颜色
+        statusBarView.setBackgroundColor(color);
+        //添加占位状态栏到线性布局中
+        linearLayout.addView(statusBarView, lp);
+
+        //侧滑菜单
+        DrawerLayout mDrawerLayout = (DrawerLayout) parentView;
+        //本来的内容视图，这里是传进来的content_navigation_drawer的布局id
+        View content = activity.findViewById(contentId);
+        //从DrawerLayout中移除本来的内容视图
+        mDrawerLayout.removeView(content);
+        //添加新的内容视图到容器LinearLayout
+        linearLayout.addView(content, content.getLayoutParams());
+        //将容器LinearLayout设置给 DrawerLayout，这样就换了原来的无状态栏的content_navigation_drawer布局
+        mDrawerLayout.addView(linearLayout, 0);
+    }
+
+    /**
+     * <p>设置沉浸式布局，并且使状态栏颜色为指定，默认为不透明</p>
+     * <p>表现为布局内容全沉浸，内容顶到状态栏里边，完全不透明的StatusBar条View</p>
+     * <p> 布局中不要设置android:fitsSystemWindows="true"</p>
+     * <p>假如是Navigation侧滑式菜单，NavigationView布局下加上 app:insetForeground="#00000000"消除Navigation上的半透明Bar</p>
+     * <p>默认主题是android:theme="@style/Theme.AppCompat.Light.NoActionBar"</p>
+     *
+     * @param activity
+     * @param color    指定颜色值，16进制颜色值
+     */
+    @TargetApi(21)
+    public static void setStatusTransparentAndColor(Activity activity, @ColorInt int color) {
+        setStatusTransparentAndColor(activity, color, 1.0f);
+    }
+
     /**
      * <p>设置沉浸式状态栏，并且使状态栏颜色为指定，指定透明度</p>
      * <p>表现为布局内容全沉浸，内容顶到状态栏里边</p>
+     * <p> 布局中不要设置android:fitsSystemWindows="true"</p>
+     * <p>默认主题是android:theme="@style/Theme.AppCompat.Light.NoActionBar"</p>
      *
      * @param activity
      * @param color    指定颜色值，16进制颜色值
@@ -113,18 +187,6 @@ public class BarsHelper {
         //设置透明背景Bars
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(ColorHelper.changeArg(color, alpha));
-    }
-
-    /**
-     * <p>设置沉浸式布局，并且使状态栏颜色为指定，默认为不透明</p>
-     * <p>表现为布局内容全沉浸，内容顶到状态栏里边，完全不透明的StatusBar条View</p>
-     *
-     * @param activity
-     * @param color    指定颜色值，16进制颜色值
-     */
-    @TargetApi(21)
-    public static void setStatusTransparentAndColor(Activity activity, @ColorInt int color) {
-        setStatusTransparentAndColor(activity, color, 1.0f);
     }
 
 
