@@ -2,6 +2,7 @@ package com.minminaya.aaudemo.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -36,7 +37,7 @@ public class NavigationDrawerActivity extends AppCompatActivity {
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BarsHelper.showNavigationBar(NavigationDrawerActivity.this);
+                BarsHelper.setNavigationBarColor(NavigationDrawerActivity.this, Color.TRANSPARENT);
             }
         });
         BarsHelper.setDrawerLayoutTransparent(this, getResources().getColor(R.color.colorPrimaryDark), R.id.layout_content);

@@ -188,6 +188,15 @@ public class BarsHelper {
         window.setStatusBarColor(ColorHelper.changeArg(color, alpha));
     }
 
+    /**
+     * <p>设置当前的导航栏颜色</p>
+     *
+     * @param activity
+     * @param color    16进制颜色值
+     */
+    public static void setNavigationBarColor(Activity activity, @ColorInt int color) {
+        activity.getWindow().setNavigationBarColor(color);
+    }
 
     /**
      * <p>粘性沉浸式模式</p>
