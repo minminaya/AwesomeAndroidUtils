@@ -21,19 +21,9 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        int statusBarHeight = BarsHelper.getStatusBarOrNavigationHeight(BarsHelper.STATUS_BAR);
-        int navigationHeight = BarsHelper.getStatusBarOrNavigationHeight(BarsHelper.NAVIGATION_BAR);
-        Log.e("HomeActivity：", "当前statusBarHeight值：" + statusBarHeight);
-        Log.e("HomeActivity：", "当前navigationHeight值：" + navigationHeight);
-
-//        BarsHelper.addStatusBarViewAtDecorView(this, getResources().getColor(R.color.colorPrimaryDark), 1.0f);
-
-//        BarsHelper.setStatusBarColor(this, Color.parseColor("#303F9F"),1f,true,BarsHelper.NO_STATUS_AND_NO_NAVIGATION);
-//        BarsHelper.addGradientOrNormalStatusBarViewAtDecorView(this, true, -1, Color.parseColor("#303F9F"), 1f);
-//        BarsHelper.addGradientOrNormalStatusBarViewAtDecorView(this, false, R.drawable.gradient_1, -1, 1f);
-        BarsHelper.setStatusTransparentAndColor(this, Color.GREEN, 0f);
-        BarsHelper.setAndroidtStatusBarUIAndTextColor(this, true);
-        BarsHelper b = new BarsHelper();
+        BarsHelper.addGradientOrNormalStatusBarViewAtDecorView(this, false, R.drawable.gradient_1, -1, 1.0f);
+//        BarsHelper.setStatusTransparentAndColor(this,  getResources().getColor(R.color.colorPrimaryDark), 0.0f);
     }
+
 
 }

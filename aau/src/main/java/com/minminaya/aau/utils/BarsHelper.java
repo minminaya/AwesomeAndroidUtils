@@ -289,7 +289,7 @@ public class BarsHelper {
             decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         }
     }
-    /** @deprecated 很奇怪，这里测试时会保持一个boolean值。原因未明
+    /**  很奇怪，这里测试时会保持一个boolean值。原因未明
      * <p>判断当前Activity的导航栏可见性</p>
      *
      * @param activity 需要判断的当前的Activity

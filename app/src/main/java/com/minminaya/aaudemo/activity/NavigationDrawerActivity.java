@@ -40,8 +40,10 @@ public class NavigationDrawerActivity extends AppCompatActivity {
                 BarsHelper.setNavigationBarColor(NavigationDrawerActivity.this, Color.TRANSPARENT);
             }
         });
-        BarsHelper.setDrawerLayoutTransparent(this, getResources().getColor(R.color.colorPrimaryDark), R.id.layout_content);
-//        Log.e("ddd", "jieguo：" + BarsHelper.isNavigationBarVisible(this));
+
+
+        BarsHelper.setStatusTransparentAndColor(this, -1, 0.0f);
+//        BarsHelper.setDrawerLayoutTransparent(this, getResources().getColor(R.color.colorPrimaryDark), R.id.layout_content);
     }
 
 }
