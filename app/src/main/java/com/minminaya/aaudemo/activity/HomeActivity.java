@@ -31,7 +31,9 @@ public class HomeActivity extends AppCompatActivity {
 //        BarsHelper.setStatusBarColor(this, Color.parseColor("#303F9F"),1f,true,BarsHelper.NO_STATUS_AND_NO_NAVIGATION);
 //        BarsHelper.addGradientOrNormalStatusBarViewAtDecorView(this, true, -1, Color.parseColor("#303F9F"), 1f);
 //        BarsHelper.addGradientOrNormalStatusBarViewAtDecorView(this, false, R.drawable.gradient_1, -1, 1f);
-
+        BarsHelper.setStatusTransparentAndColor(this, Color.GREEN, 0f);
+        BarsHelper.setAndroidtStatusBarUIAndTextColor(this, true);
+        BarsHelper b = new BarsHelper();
     }
 
 }

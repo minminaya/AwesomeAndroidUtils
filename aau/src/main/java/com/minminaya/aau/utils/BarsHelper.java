@@ -34,6 +34,10 @@ import java.lang.reflect.Method;
 
 public class BarsHelper {
 
+    public BarsHelper() {
+        throw new UnsupportedOperationException("请使用静态方法");
+    }
+
     public final static int STATUS_BAR = 0;
     public final static int NAVIGATION_BAR = 1;
     /**
@@ -268,6 +272,24 @@ public class BarsHelper {
     }
 
     /**
+     * <p>设置当前状态栏文字UI为黑色或者白色，Android6.0默认为白色</p>
+     * <p>
+     * <strong>Note:</strong>原生Android6.0及以上测试通过
+     * <p>手头无小米，魅族机器，无法测试其适用性，谨慎适用</p>
+     *
+     * @param activity
+     * @param isDarkStatusUI 是否黑色状态栏UI及文字，true为黑色
+     */
+    @TargetApi(23)
+    public static void setAndroidtStatusBarUIAndTextColor(Activity activity, boolean isDarkStatusUI) {
+        View decorView = activity.getWindow().getDecorView();
+        if (isDarkStatusUI) {
+            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        } else {
+            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+        }
+    }
+    /** @deprecated 很奇怪，这里测试时会保持一个boolean值。原因未明
      * <p>判断当前Activity的导航栏可见性</p>
      *
      * @param activity 需要判断的当前的Activity
