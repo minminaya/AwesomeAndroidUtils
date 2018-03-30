@@ -9,9 +9,29 @@ v1.0.1:缓存工具类，建设中
 
 # 使用方法
 
-1. 复制所需的工具类的所需要的方法到你的工程（推荐）
+一、复制所需的工具类的所需要的方法到你的工程（推荐）
 
-2. gradle集成
+二、gradle集成
+
+
+1. 在你的```Project build.gradle```下
+
+```
+allprojects {
+    repositories {
+        ....
+   	maven { url 'https://jitpack.io' }
+    }
+}
+```
+2. 在```app build.gradle```下
+
+```
+dependencies {
+    ....
+    implementation 'com.github.minminaya:AwesomeAndroidUtils:v1.0.1'
+}
+```
 
 
 # LECENSE
