@@ -8,6 +8,10 @@ import android.util.ArrayMap;
  */
 public class CacheHelper {
 
+    private CacheHelper(){
+        throw new UnsupportedOperationException("不要实例化");
+    }
+
     /**这里设计成全局单例*/
     public static void getINSTANCE() {
     }
