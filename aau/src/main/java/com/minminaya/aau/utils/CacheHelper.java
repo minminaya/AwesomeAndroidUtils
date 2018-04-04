@@ -8,16 +8,31 @@ import android.util.ArrayMap;
  */
 public class CacheHelper {
 
-    private CacheHelper(){
+    private static volatile CacheHelper defaultInstance;
+
+    private CacheHelper() {
         throw new UnsupportedOperationException("不要实例化");
     }
 
-    /**这里设计成全局单例*/
-    public static void getINSTANCE() {
+    /**
+     * <p>这里设计成全局单例(DCL单例模式保证线程安全)</p>
+     */
+    public static CacheHelper getINSTANCE() {
+        CacheHelper cacheHelper = defaultInstance;
+        if (cacheHelper == null) {
+            synchronized (CacheHelper.class) {
+                if (cacheHelper == null) {
+                    cacheHelper = CacheHelper.defaultInstance = new CacheHelper();
+                }
+            }
+        }
+        return cacheHelper;
     }
 
-    /**设计为Builder模式，方便参数的设置*/
-    public class Builder {
+    /**
+     * 设计为Builder模式，方便参数的设置
+     */
+    public class CacheHelperBuilder {
 
     }
 }
