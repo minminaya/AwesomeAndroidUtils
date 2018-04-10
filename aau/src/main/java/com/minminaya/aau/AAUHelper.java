@@ -28,6 +28,6 @@ public class AAUHelper {
         if (null != application) {
             return application;
         }
-        throw new NullPointerException("还没调用initial()方法将Application传进来(you should call initial() for Application Context)");
+        throw new NullPointerException("you should call initial() for Application Context");
     }
 }

@@ -35,4 +35,11 @@ public class CacheHelper {
     public class CacheHelperBuilder {
 
     }
+
+    /**
+     * 数据转换类
+     */
+    public static class DataTransfer {
+
+    }
 }
