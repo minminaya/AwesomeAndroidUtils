@@ -45,7 +45,11 @@ public class SizeUtils {
     /**
      * 输入起点、长度、旋转角度计算终点
      * <p>
-     * 知道一个线段，一个定点，线段旋转角度求终点坐标
+     * <p>知道一个线段，它的定点，线段旋转角度(线段起始角度为Android坐标系90°)求旋转后的终点坐标</p>
+     * <p><strong>NOTICE:</strong>初始角度为90度</p>
+     * <p>
+     * <p>
+     * <p>
      * 根据极坐标系原理 x = pcog(a), y = psin(a)
      *
      * @param startPoint 起点
@@ -53,7 +57,7 @@ public class SizeUtils {
      * @param angle      旋转角度
      * @return 计算结果点
      */
-    private static PointF calculatPoint(PointF startPoint, float length, float angle) {
+    public static PointF calculatPoint(PointF startPoint, float length, float angle) {
         float deltaX = (float) Math.cos(Math.toRadians(angle)) * length;
         //符合Android坐标的y轴朝下的标准，和y轴有关的统一减180度
         float deltaY = (float) Math.sin(Math.toRadians(angle - 180)) * length;
@@ -71,7 +75,7 @@ public class SizeUtils {
      *
      * @return DisplayMetrics
      */
-    private static DisplayMetrics getScreenParams() {
+    public static DisplayMetrics getScreenParams() {
         WindowManager wm = (WindowManager) AAUHelper.getApplication().getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics displayMetrics = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(displayMetrics);
