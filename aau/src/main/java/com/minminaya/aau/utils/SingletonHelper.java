@@ -11,8 +11,10 @@ public class SingletonHelper {
 
     /**
      * <p>存储当前对象的同步集合，使用此集合，跟加了volatile的DCL单例模式有异曲同工之妙</p>
+     * <p>
+     * <p>以类名和对象作为键值对保存，这样方便建立单个类的多个单例对象</p>
      */
-    private static final ConcurrentHashMap<Class, Object> CONCURRENT_HASH_MAP = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, Object> CONCURRENT_HASH_MAP = new ConcurrentHashMap<>();
 
     /**
      * <p>获取单例对象</p>
@@ -21,9 +23,9 @@ public class SingletonHelper {
      * @param clzss 需要实例化的类名
      * @return 返回实例化的对象
      */
-    public static <T> T getSingleton(Class<T> clzss) {
+    public static <T> T getSingleton(Class<T> clzss, String objectName) {
 
-        Object object = CONCURRENT_HASH_MAP.get(clzss);
+        Object object = CONCURRENT_HASH_MAP.get(objectName);
 
         if (object == null) {
 
@@ -39,7 +41,7 @@ public class SingletonHelper {
                     e.printStackTrace();
                 }
                 //存进map里
-                CONCURRENT_HASH_MAP.put(clzss, object);
+                CONCURRENT_HASH_MAP.put(objectName, object);
 
             }
         }
@@ -51,7 +53,7 @@ public class SingletonHelper {
      *
      * @param clzss 要移除的对象
      */
-    public static <T> void removeSingleton(Class<T> clzss) {
-        CONCURRENT_HASH_MAP.remove(clzss);
+    public static <T> void removeSingleton(String objectName) {
+        CONCURRENT_HASH_MAP.remove(objectName);
     }
 }
