@@ -8,6 +8,8 @@ v1.0.0:[状态栏及导航栏帮助类](/MD/BarsHelper.md)
 
 v1.0.1:缓存工具类，建设中
 
+v1.0.2:[范型单例工具类](/MD/SingletonHelper.md)和[SizeUtils](/MD/SizeUtils.md)
+
 # 使用方法
 
 一、复制所需的工具类的所需要的方法到你的工程（推荐）
