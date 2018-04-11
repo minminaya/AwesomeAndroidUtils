@@ -4,9 +4,8 @@
 
 # 进度
 
-v1.0.0:[状态栏及导航栏帮助类](/MD/BarsHelper.md)
+v1.0.1:[状态栏及导航栏帮助类](/MD/BarsHelper.md)
 
-v1.0.1:缓存工具类，建设中
 
 v1.0.2:[范型单例工具类](/MD/SingletonHelper.md)和[SizeUtils](/MD/SizeUtils.md)
 
@@ -32,8 +31,16 @@ allprojects {
 ```
 dependencies {
     ....
-    implementation 'com.github.minminaya:AwesomeAndroidUtils:v1.0.1'
+    implementation 'com.github.minminaya:AwesomeAndroidUtils:v1.0.2'
 }
+```
+
+3. 在Application类的onCreate下，初始化Context
+
+```
+
+AAUHelper.initial(this);
+
 ```
 
 
