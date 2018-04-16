@@ -113,4 +113,26 @@ public class SizeUtils {
     }
 
 
+    /*-----------------------------MATH计算-------------------------------------*/
+
+
+    /**
+     * sin正弦函数
+     *
+     * @param angle 角度制
+     */
+    public static float sin(int angle) {
+        return (float) Math.sin(Math.toRadians(angle));
+    }
+
+    /**
+     * cos余弦函数
+     *
+     * @param angle 角度制
+     * @return 返回余弦值
+     */
+    public static float cos(int angle) {
+        return (float) Math.cos(Math.toRadians(angle));
+    }
+
 }
