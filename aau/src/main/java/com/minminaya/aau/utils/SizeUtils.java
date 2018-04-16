@@ -3,6 +3,8 @@ package com.minminaya.aau.utils;
 import android.content.Context;
 import android.graphics.PointF;
 import android.util.DisplayMetrics;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import com.minminaya.aau.AAUHelper;
@@ -81,4 +83,34 @@ public class SizeUtils {
         wm.getDefaultDisplay().getMetrics(displayMetrics);
         return displayMetrics;
     }
+
+
+    /**
+     * 测量View的尺寸，模仿ViewGroup测量过程
+     *
+     * @param view
+     * @return 返回测量之后的view宽度和高度的数组
+     */
+    public static int[] measureView(View view) {
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        if (layoutParams == null) {
+            //初始化lp为宽最大，高为适应内容
+            layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
+        //最大宽度模式直接测量
+        int widthMeasureSpec = ViewGroup.getChildMeasureSpec(0, 0, layoutParams.width);
+
+        int lpHeight = layoutParams.height;
+        int heightMeasureSpec;
+        if (lpHeight > 0) {
+            //如果高度定义
+            heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(lpHeight, View.MeasureSpec.EXACTLY);
+        } else {
+            heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(lpHeight, View.MeasureSpec.UNSPECIFIED);
+        }
+        view.measure(widthMeasureSpec, heightMeasureSpec);
+        return new int[]{view.getMeasuredWidth(), view.getMeasuredHeight()};
+    }
+
+
 }
