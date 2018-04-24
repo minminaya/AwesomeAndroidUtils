@@ -255,7 +255,7 @@ public class BarsHelper {
      * @param activity  activity
      * @param isVisible {@code true}: 可见<br>{@code false}: 不可见
      */
-    public void setNavBarVisibility(final Activity activity, boolean isVisible) {
+    public static void setNavBarVisibility(final Activity activity, boolean isVisible) {
         if (isVisible) {
             activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         } else {

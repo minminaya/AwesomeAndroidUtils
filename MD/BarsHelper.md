@@ -22,6 +22,7 @@
 | ```showNavigationBar```                           | 显示导航栏                                                   |
 | ```isStatusBarVisible```                          | 判断当前Activity的可见性                                     |
 | ```setNavigationBarColor```                       | 设置当前的导航栏颜色                                         |
+| ```setNavBarVisibility```                       | 设置当前的导航栏沉浸式                                      |
 
 详细使用可以看注释
 
