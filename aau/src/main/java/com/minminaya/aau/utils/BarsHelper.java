@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
 import android.support.annotation.FontRes;
@@ -246,6 +247,23 @@ public class BarsHelper {
         int options = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(options);
+    }
+
+    /**
+     * 设置导航栏是否可见，效果表现为，透明背景沉浸式导航栏，上滑不会顶开内容
+     *
+     * @param activity  activity
+     * @param isVisible {@code true}: 可见<br>{@code false}: 不可见
+     */
+    public void setNavBarVisibility(final Activity activity, boolean isVisible) {
+        if (isVisible) {
+            activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        } else {
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+            View decorView = activity.getWindow().getDecorView();
+            int visibility = decorView.getSystemUiVisibility();
+            decorView.setSystemUiVisibility(visibility & ~View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        }
     }
 
     /**
