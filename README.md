@@ -18,7 +18,7 @@ v1.0.2:[范型单例工具类](/MD/SingletonHelper.md)和[SizeUtils](/MD/SizeUti
 二、gradle集成
 
 
-1. 在你的```Project build.gradle```下
+1、 在你的```Project build.gradle```下
 
 ```
 allprojects {
@@ -28,7 +28,7 @@ allprojects {
     }
 }
 ```
-2. 获取最新版本[JitPack](https://jitpack.io/#minminaya/AwesomeAndroidUtils)在```app build.gradle```下
+2、 获取最新版本[JitPack](https://jitpack.io/#minminaya/AwesomeAndroidUtils)在```app build.gradle```下
 
 
 
@@ -39,7 +39,7 @@ dependencies {
 }
 ```
 
-3. 在Application类的onCreate下，初始化Context
+3、 可选假如要用到Context，那么在Application类的onCreate下，初始化Context
 
 ```
 
