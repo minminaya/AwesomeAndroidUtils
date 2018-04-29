@@ -38,13 +38,29 @@ public class CacheHelper {
      * 设计为Builder模式，方便参数的设置
      */
     public class CacheHelperBuilder {
-        public CacheHelperBuilder() {
 
+
+        private CacheHelper cacheHelper;
+        public CacheHelperBuilder() {
+            cacheHelper = getINSTANCE();
         }
 
         public CacheHelperBuilder setCacheName(String cacheName) {
             defaultInstance.mCacheName = cacheName;
             return this;
+        }
+        public CacheHelperBuilder setMaxSize(long maxSize) {
+            defaultInstance.mMaxSize = maxSize;
+            return this;
+        }
+        public CacheHelperBuilder setMaxCount(int  maxCount) {
+            defaultInstance.mMaxCount= maxCount;
+            return this;
+        }
+
+        public CacheHelper build(){
+
+            return cacheHelper;
         }
     }
 
