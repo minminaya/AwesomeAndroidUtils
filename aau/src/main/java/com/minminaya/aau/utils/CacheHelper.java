@@ -1,7 +1,11 @@
 package com.minminaya.aau.utils;
 
 import android.os.Process;
+import android.support.annotation.NonNull;
 import android.support.v4.util.SimpleArrayMap;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.minminaya.aau.AAUHelper;
 
@@ -71,6 +75,16 @@ public class CacheHelper {
         return cacheHelper;
     }
 
+    public void put(@NonNull String key, @NonNull byte[] value, int saveTime) {
+        if(value.length<=0) {
+            return;
+        }
+        if(saveTime>=0){
+            //todo 将日期封装到byte数组前面
+        }
+        
+    }
+
 
     /**
      * 数据转换类
@@ -127,5 +141,7 @@ public class CacheHelper {
                 }
             });
         }
+
+
     }
 }
