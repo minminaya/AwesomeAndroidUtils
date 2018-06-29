@@ -7,10 +7,8 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
-import android.support.annotation.FontRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.IntDef;
 import android.support.v4.widget.DrawerLayout;
@@ -32,7 +30,6 @@ import java.lang.reflect.Method;
  * <p>
  * Created by Niwa on 2018-03-18.
  */
-
 public class BarsHelper {
 
     public BarsHelper() {
